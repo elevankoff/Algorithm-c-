@@ -1,5 +1,6 @@
 #pragma GCC optimize("Ofast")
 #include <bits/stdc++.h>
+#define IOS {ios :: sync_with_stdio(false); cin.tie(0); cout.tie(0);}
 using namespace std;
 int t[N*4], add[N*4], need[N*4];
 void push(int v, int tl, int tr){
