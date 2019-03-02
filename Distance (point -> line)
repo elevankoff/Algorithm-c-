@@ -1,0 +1,10 @@
+inline ld distt(ld x1, ld y1, ld x2, ld y2, ld x, ld y) {
+    ld A = y2 - y1, B = x1 - x2, C = x2*y1 - x1*y2, xx1 = x1 + A, yy1 = y1 + B, xx2 = x2 + A,
+    yy2 = y2 + B, A1 = yy1 - y1, B1 = x1 - xx1, C1 = xx1*y1 - yy1*x1,
+    A2 = yy2 - y2, B2 = x2 - xx2, C2 = xx2*y2 - yy2*x2;
+    ld z1 = A1*x + B1*y + C1, z2 = A2*x + B2*y + C2, ans;
+    if (z1 * z2 > 0) ans = min(sqrt((x - x1)*(x - x1) + (y - y1)*(y - y1)),
+                               sqrt((x - x2)*(x - x2) + (y - y2)*(y - y2))); else
+    ans = abs(A*x + B*y + C)/sqrt(A*A + B*B);
+    return ans;
+}
