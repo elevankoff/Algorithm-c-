@@ -17,29 +17,35 @@ const long long M = 1e9 + 7;
 const int rx[4] = {1, 0, -1, 0};
 const int ry[4] = {0, 1, 0, -1};
 
+// С ОДНОЙ ЛИ СТОРОНЫ ПРЯМОЙ ЛЕЖАТ ДВЕ ТОЧКИ
 inline bool one_side (ll x1, ll y1, ll x2, ll y2, ll A, ll B, ll C) {
     ll z1 = A*x1 + B*y1 + C, z2 = A*x2 + B*y2 + C;
     return (z1 * z2 >= 0);
 }
 
+// ТОЧКА НА ПРЯМОЙ ИЛИ НЕТ
 inline bool dot_on_line (ll A, ll B, ll C, ll x, ll y) {
     return (A*x + B*y + C == 0);
 }
 
+// ТОЧКА НА ПРЯМОЙ ИЛИ НЕТ
 inline bool dot_on_line (ll x1, ll y1, ll x2, ll y2, ll x, ll y) {
     ld A = y2 - y1, B = x1 - x2, C = y1*x2 - x1*y2;
     return dot_on_line(A, B, C, x, y);
 }
 
+// РАССТОЯНИЕ ОТ ТОЧКИ ДО ПРЯМОЙ
 inline ld dist_dot_line (ld A, ld B, ld C, ld x, ld y) {
     return fabs(A*x + B*y + C)/sqrt(A*A + B*B);
 }
 
+// РАССТОЯНИЕ ОТ ТОЧКИ ДО ПРЯМОЙ
 inline ld dist_dot_line (ld x1, ld y1, ld x2, ld y2, ld x, ld y) {
     ld A = y2 - y1, B = x1 - x2, C = y1*x2 - x1*y2;
     return dist_dot_line(A, B, C, x, y);
 }
 
+// РАССТОЯНИЕ ОТ ТОЧКИ ДО ОТРЕЗКА
 inline ld dist_dot_segment(ld x1, ld y1, ld x2, ld y2, ld x, ld y) {
     ld A = y2 - y1, B = x1 - x2, C = x2*y1 - x1*y2, xx1 = x1 + A, yy1 = y1 + B, xx2 = x2 + A,
     yy2 = y2 + B, A1 = yy1 - y1, B1 = x1 - xx1, C1 = xx1*y1 - yy1*x1,
@@ -51,10 +57,12 @@ inline ld dist_dot_segment(ld x1, ld y1, ld x2, ld y2, ld x, ld y) {
     return ans;
 }
 
+// ПЛОЩАДЬ ТРЕУГОЛЬНИКА
 inline ld triangle_square (ld x1, ld y1, ld x2, ld y2, ld x3, ld y3) {
     return fabs((x2 - x1)*(y3 - y1) - (x3 - x1)*(y2 - y1));
 }
 
+// ПЛОЩАДЬ ПРЯМОУГОЛЬНИКА
 inline ld polygon_square (ld x [], ld y [], int n) {
     ld ans = 0;
     for (int i = 0; i < n; i++)
@@ -62,6 +70,7 @@ inline ld polygon_square (ld x [], ld y [], int n) {
     return abs(ans)/2;
 }
 
+// ВЫПУКЛЫЙ ИЛИ НЕТ
 inline bool convex(ll x [], ll y [], int n) {
     x[n + 1] = x[1], y[n + 1] = y[1];
     x[n + 2] = x[2], y[n + 2] = y[2];
@@ -77,7 +86,8 @@ inline bool convex(ll x [], ll y [], int n) {
     return 1;
 }
 
-inline bool segments_intersection (ll x1, ll y1, ll x2, ll y2, ll x3, ll y3, ll x4, ll y4) {
+// ПЕРЕСЕКАЮТСЯ ЛИ ОТРЕЗКИ
+inline bool bool_segments_intersection (ll x1, ll y1, ll x2, ll y2, ll x3, ll y3, ll x4, ll y4) {
 ll z3 = (x3 - x1)*(y2 - y1) - (y3 - y1)*(x2 - x1);
     ll z4 = (x4 - x1)*(y2 - y1) - (y4 - y1)*(x2 - x1);
     ll z1 = (x1 - x3)*(y4 - y3) - (y1 - y3)*(x4 - x3);
@@ -99,6 +109,18 @@ ll z3 = (x3 - x1)*(y2 - y1) - (y3 - y1)*(x2 - x1);
     }
 }
 
+
+// ТОЧКА ПЕРЕСЕЧЕНИЯ ОТРЕЗКОВ
+pair<ld, ld> segments_intersection(ll x1, ll y1,ll x2, ll y2, ll x3, ll y3, ll x4, ll y4){
+    ll A1 = y2 - y1, B1 = x1 - x2, C1 = y1*x2 - y2*x1,
+        A2 = y4 - y3, B2 = x3 - x4, C2 = y3*x4 - x3*y4;
+    if (!bool_segments_intersection(x1, y1, x2, y2, x3, y3, x4, y4)) return {inf, inf};
+    ld y = double(A1*C2 - A2*C1)/double(A2*B1 - A1*B2);
+    ld x = double(B1*C2 - B2*C1)/double(B2*A1 - A2*B1);
+    return {x, y};
+}
+
+// ТОЧКА ВНУТРИ МНОГОУГОЛЬНИКА ИЛИ НЕТ
 inline bool in_polygon (ld x [], ld y [], int n, ld x0, ld y0)  {
     x[n] = x[0], y[n] = y[0];
     ld mn = x[0];
@@ -118,10 +140,12 @@ inline bool in_polygon (ld x [], ld y [], int n, ld x0, ld y0)  {
     return k%2;
 }
 
+// КОЛИЧЕСТВО ТОЧЕК НА ОТРЕЗКЕ
 inline ll dots_on_segment (ll x1, ll y1, ll x2, ll y2) {
     return __gcd(abs(x1 - x2), abs(y1 - y2)) + 1;
 }
 
+// КОЛИЧЕСТВО ТОЧЕК В МНОГОУГОЛЬНИКЕ
 inline int dots_in_polygon(ll x [], ll y [], int n) {
     ll Min = y[0];
     for (int i = 0; i < n; i++) {
@@ -137,8 +161,9 @@ inline int dots_in_polygon(ll x [], ll y [], int n) {
     s = abs(s);
     return (s - kt + 2) / 2;
 }
-ll mx, my;
 
+// ВЫПУКЛАЯ ОБОЛОЧКА
+ll mx, my;
 inline bool comp(pair<int, int> a, pair<int, int> b)
 {
     ll z = (a.F - mx) * (b.S - my) - (a.S - my) * (b.F - mx);
