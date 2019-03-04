@@ -162,6 +162,24 @@ inline int dots_in_polygon(ll x [], ll y [], int n) {
     return (s - kt + 2) / 2;
 }
 
+// ПЕРЕСЕЧЕНИЕ ПРЯМЫХ
+inline bool bool_line_intersection (ld x11, ld y11, ld x12, ld y12, ld x21, ld y21, ld x22, ld y22) {
+    ld A1 = y12 - y11, B1 = x11 - x12, C1 = y11*x12 - x11*y12;
+    ld A2 = y22 - y21, B2 = x21 - x22, C2 = y21*x22 - x21*y22;
+    ld d = A1 * B2 - A2 * B1;
+    return d != 0;
+}
+
+inline pair<ld, ld> line_intersection (ld x11, ld y11, ld x12, ld y12, ld x21, ld y21, ld x22, ld y22) {
+    ld A1 = y12 - y11, B1 = x11 - x12, C1 = y11*x12 - x11*y12;
+    ld A2 = y22 - y21, B2 = x21 - x22, C2 = y21*x22 - x21*y22;
+    ld d = A1 * B2 - A2 * B1;
+    if (d == 0) return {inf, inf};
+    ld x = (B1 * C2 - B2 * C1) / d;
+    ld y = (C1 * A2 - C2 * A1) / d;
+    return {x, y};
+}
+
 // ВЫПУКЛАЯ ОБОЛОЧКА
 ll mx, my;
 inline bool comp(pair<int, int> a, pair<int, int> b)
