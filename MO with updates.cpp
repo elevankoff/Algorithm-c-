@@ -69,16 +69,16 @@ void Update_Delete (int nowTime, int l, int r) {
     if (pos >= l && pos <= r) {
         Delete(val);
     }
-    if (!all[pos].empty()) all[pos].pop_back();
+    all[pos].pop_back();
     if (pos >= l && pos <= r) {
-        if (!all[pos].empty()) Add(all[pos].back());
+        Add(all[pos].back());
     }
 }
 
 void Update_Add (int nowTime, int l, int r) {
     int pos = updates[nowTime].pos, val = updates[nowTime].val;
     if (pos >= l && pos <= r) {
-        if (!all[pos].empty()) Delete(all[pos].back());
+        Delete(all[pos].back());
         Add(val);
     }
     all[pos].pb(val);
@@ -93,8 +93,8 @@ int getAnswer () {
 }
 
 signed main() {
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
+//    freopen("input.txt", "r", stdin);
+//    freopen("output.txt", "w", stdout);
     IOS
     int n;
     cin >> n;
@@ -124,7 +124,6 @@ signed main() {
     }
     sort(queries.begin(), queries.end(), comp);
     int l = 1, r = 0;
-    int was = 0;
     int ans[sz(queries)] = {};
     for (auto query : queries) {
         while (nowTime < query.Time) Update_Add(nowTime++, l, r);
